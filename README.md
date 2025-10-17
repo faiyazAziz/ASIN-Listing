@@ -2,6 +2,8 @@
 
 An AI-powered web application that scrapes Amazon product data, uses the Gemini API to generate optimized content, and stores a history of all optimizations. This project was built to demonstrate full-stack development skills using the PERN stack (React, Node.js, Express, MySQL).
 
+![Amazon Listing Optimizer Demo](SalesDuoRec-ezgif.com-video-to-gif-converter.gif)
+
 ## Features
 
   * **Scrape Live Data**: Fetches product title, bullet points, and description directly from an Amazon product page using an ASIN.
