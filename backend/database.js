@@ -1,8 +1,6 @@
-// backend/database.js
 require('dotenv').config();
 const mysql = require('mysql2/promise');
 
-// Create a connection pool. This is better than a single connection for a web server.
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -25,7 +23,7 @@ async function saveOptimization(data) {
   }
 }
 
-// Function to get the history for a specific ASIN
+// Get one optimization history by ASIN
 async function getHistory(asin) {
   const sql = 'SELECT * FROM optimizations WHERE asin = ? ORDER BY created_at DESC limit 1';
   try {
@@ -37,7 +35,7 @@ async function getHistory(asin) {
   }
 }
 
-// Function to get a list of all unique ASINs that have been optimized
+// To get a list of all unique ASINs that have been optimized
 async function getUniqueAsins() {
   const sql = 'SELECT asin, MAX(created_at) as last_optimized FROM optimizations GROUP BY asin ORDER BY last_optimized DESC';
   try {
@@ -49,9 +47,8 @@ async function getUniqueAsins() {
   }
 }
 
-// Don't forget to export the new function
 module.exports = {
   saveOptimization,
   getHistory,
-  getUniqueAsins // <-- Add this here
+  getUniqueAsins 
 };

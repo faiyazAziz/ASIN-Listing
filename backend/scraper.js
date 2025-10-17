@@ -1,4 +1,3 @@
-// backend/scraper.js
 const axios = require('axios');
 const cheerio = require('cheerio');
 
@@ -14,18 +13,17 @@ async function scrapeAmazonProduct(asin, domain = 'www.amazon.in') {
     const { data } = await axios.get(url, { headers });
     const $ = cheerio.load(data);
 
-    // Initial extractions
+    
     const title = $('#productTitle').text().trim();
     const bulletPoints = [];
     $('#feature-bullets .a-list-item').each((i, el) => {
       bulletPoints.push($(el).text().trim());
     });
 
-    // Object to store the table data
+    
     const productTableDetails = {};
-    const description = []; // Use an array to build the description
+    const description = []; 
 
-    // Scrape the table and store the data in an object
     $('#productDetails_feature_div tbody tr').each((i, row) => {
       const key = $(row).find('.prodDetSectionEntry').text().trim();
       const value = $(row).find('.prodDetAttrValue').text().trim();
@@ -34,14 +32,13 @@ async function scrapeAmazonProduct(asin, domain = 'www.amazon.in') {
       }
     });
 
-    // You can also format this as a string for a simple description
     for (const key in productTableDetails) {
       if (Object.prototype.hasOwnProperty.call(productTableDetails, key)) {
         description.push(`${key}: ${productTableDetails[key]}`);
       }
     }
 
-    // Check if the scrape was successful
+    
     if (!title) {
       throw new Error('Scraping failed: Could not find product title. The page structure may have changed.');
     }
@@ -49,7 +46,7 @@ async function scrapeAmazonProduct(asin, domain = 'www.amazon.in') {
     return {
       title,
       bulletPoints: bulletPoints.join('\n'),
-      description: description.join('\n\n'), // Join the array into a single string
+      description: description.join('\n\n'), 
     };
   } catch (error) {
     console.error(`Scraping failed for ASIN ${asin}:`, error.message);

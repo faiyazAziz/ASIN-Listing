@@ -8,20 +8,16 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// --- API Routes will go here ---
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-
-// Add these to your backend/index.js
-
 const { scrapeAmazonProduct } = require('./scraper');
 const { optimizeListing } = require('./aiOptimizer');
-const db = require('./database'); // We'll create this next
+const db = require('./database'); 
 
-// Main endpoint to optimize a product
+
 app.post('/api/optimize', async (req, res) => {
   const { asin } = req.body;
   if (!asin) {
@@ -38,12 +34,12 @@ app.post('/api/optimize', async (req, res) => {
         original_bullets: originalDetails.bulletPoints,
         original_description: originalDetails.description,
         optimized_title: optimizedDetails.newTitle,
-        optimized_bullets: JSON.stringify(optimizedDetails.newBullets), // Store array as JSON string
+        optimized_bullets: JSON.stringify(optimizedDetails.newBullets), 
         optimized_description: optimizedDetails.newDescription,
         suggested_keywords: JSON.stringify(optimizedDetails.keywords)
     };
 
-    await db.saveOptimization(dataToStore); // Save to MySQL
+    await db.saveOptimization(dataToStore); 
 
     res.json({ original: originalDetails, optimized: optimizedDetails });
 
@@ -62,7 +58,7 @@ app.get('/api/history', async (req, res) => {
   }
 });
 
-// Endpoint to get history for an ASIN
+
 app.get('/api/history/:asin', async (req, res) => {
     const { asin } = req.params;
     try {

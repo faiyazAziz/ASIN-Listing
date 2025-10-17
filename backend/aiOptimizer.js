@@ -1,4 +1,3 @@
-// backend/aiOptimizer.js
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -34,7 +33,7 @@ async function optimizeListing(productDetails) {
   const response = await result.response;
   const text = response.text();
 
-  // Clean the response to ensure it's valid JSON
+  // To get result in JSON format
   const jsonResponse = text.replace(/```json/g, '').replace(/```/g, '').trim();
   return JSON.parse(jsonResponse);
 }
